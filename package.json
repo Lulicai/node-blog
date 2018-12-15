@@ -1,0 +1,36 @@
+{
+  "name": "node-blog",
+  "version": "1.0.0",
+  "description": "node-blog",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lulicai/node-blog.git"
+  },
+  "keywords": [
+    "node",
+    "koa"
+  ],
+  "author": "lulicai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lulicai/node-blog/issues"
+  },
+  "homepage": "https://github.com/Lulicai/node-blog#readme",
+  "dependencies": {
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa2-cors": "^2.0.6",
+    "mysql2": "^1.6.4",
+    "sequelize": "^4.42.0",
+    "sha1": "^1.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.8"
+  }
+}
