@@ -2,7 +2,7 @@ const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
 const app = new Koa();
 const controller = require('./middleware/controller');
-
+const rest = require('./middleware/rest');
 const model = require('./middleware/model');
 
 let User = model.user;
@@ -18,7 +18,10 @@ app.use(async(ctx,next)=>{
 
 app.use(bodyParser());
 
-app.use(controller())
+app.use(rest.restify());
+
+app.use(controller());
+
 app.listen(3000,()=>{
     console.log('start listen 3000....');
 });

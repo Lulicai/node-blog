@@ -1,6 +1,7 @@
 //TODO
 //从数据库拿数据给接口返回
 //登录注册的接口
+// const rest = require('../middleware/rest')
 const api = require('../api');
 module.exports = {
     'GET /api/login':async(ctx,next)=>{
@@ -11,7 +12,7 @@ module.exports = {
             password:'ffffff'
         }
         const data = await api.createUser(user)
-        ctx.body = data;
+        ctx.rest(data)
     },
     'POST /api/register':async(ctx,next)=>{
         ctx.set("Content-Type","application/json");
