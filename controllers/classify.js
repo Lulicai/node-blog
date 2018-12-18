@@ -1,8 +1,9 @@
 const checkdata = require('../tool')
 const api = require('../api');
+const APIError = require('../middleware/rest').APIError;
 
 module.exports = {
-    'POST /api/classify':async(ctx,next)=>{
+    'POST /api/createClass':async(ctx,next)=>{
         let data = {
             classType:ctx.request.body.classType
         }
@@ -42,10 +43,14 @@ module.exports = {
         });
     },
     'POST /api/deleteClass':async(ctx,next)=>{
-        await api.deleteClass({id:ctx.request.body.id});
-        ctx.rest({
-            code:'0000',
-            message:'操作成功'
-        });
+        const deleRes = await api.deleteClass({id:ctx.request.body.id});
+        if(deleRes){
+            ctx.rest({
+                code:'0000',
+                message:'操作成功'
+            });
+        }else{
+            throw new APIError('422','参数出错')
+        }
     }
 }
