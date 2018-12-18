@@ -1,10 +1,7 @@
-//TODO
-//从数据库拿数据给接口返回
-//登录注册的接口
-// const rest = require('../middleware/rest')
-
+//用户管理的接口操作部分
 const checkdata = require('../tool')
 const api = require('../api');
+const operateToken = require('../tool/operateToken')
 module.exports = {
     'POST /api/register':async(ctx,next)=>{
         if(checkdata.checkNone(ctx.request.body.telephone)){
@@ -39,7 +36,7 @@ module.exports = {
             }else{
                 ctx.rest({
                     code:'0000',
-                    data:'tnoken',
+                    data:operateToken.createToken(ctx.request.body.telephone),
                     message:'操作成功'
                 });
             }
@@ -74,7 +71,8 @@ module.exports = {
             }else if(userP && userP[0].password == ctx.request.body.password){
                 ctx.rest({
                         code:'0000',
-                        token:'token'
+                        data:operateToken.createToken(ctx.request.body.telephone),
+                        message:'操作成功'
                     })
             }else{
                 ctx.rest({
