@@ -28,16 +28,18 @@ module.exports = {
                 password:ctx.request.body.password
             }
             const data = await api.createUser(user)
-            if(data == '该用户已存在'){
-                ctx.rest({
-                    code:'1002',
-                    message:'亲亲，您已经注册了哟～～'
-                });
-            }else{
+            // console.log(31,JSON.parse(JSON.stringify(data)))
+            const res = JSON.parse(JSON.stringify(data));
+            if(res[1]){
                 ctx.rest({
                     code:'0000',
                     data:operateToken.createToken(ctx.request.body.telephone),
                     message:'操作成功'
+                });
+            }else{
+                ctx.rest({
+                    code:'1002',
+                    message:'亲亲，您已经注册了哟～～'
                 });
             }
         }

@@ -10,22 +10,8 @@ let Articles = model.articles;
 module.exports = {
     //注册创建用户
     createUser: async ({telephone,password})=>{
-        const findUser = await User.findAll({
-            where:{
-                telephone:telephone
-            }
-        })
-        // console.log(13,findUser)
-        if(findUser.length == 0){
-            const user = await User.create({
-                telephone: telephone,
-                password: password,
-                remark:''
-            })
-            return user;
-        }else{
-            return '该用户已存在';
-        }   
+        const data = await User.findOrCreate({where:{telephone:telephone},defaults:{password:password,remark:''}})
+        return data;
     },
     //登录确认用户
     affirmUser: async({telephone,password})=>{
@@ -38,19 +24,8 @@ module.exports = {
     },
     //创建文章分类
     createClass:async({classType})=>{
-        const findClass = await Classify.findAll({
-            where:{
-                classType:classType
-            }
-        })
-        if(findClass.length !== 0){ 
-            return '该分类已存在';
-        }else{
-            const data = await Classify.create({
-                classType: classType,
-            })
-            return data;
-        }
+        const data = await Classify.findOrCreate({where:{classType:classType}})
+        return data;
     },
     //编辑文章分类
     editClass:async({id,classType,updateAt})=>{
@@ -65,7 +40,7 @@ module.exports = {
     },
     //查询所有的分类
     findAllClass:async()=>{
-        const findallClass = await Classify.findAll();
+        const findallClass = await Classify.findAll({'order': [['createAt','DESC']]});
         return findallClass;
     },
     //删除分类
@@ -75,7 +50,7 @@ module.exports = {
                 id:id
             }
         });
-        console.log(78,deleRes)
+        // console.log(78,deleRes)
         return deleRes;
     },
     //创建用户的文章
@@ -100,13 +75,44 @@ module.exports = {
     },
     //分页查询文章
     getArticle:async({pageNo})=>{
+        // console.log(78,pageNo)
         var countPerPage = 10, currentPage = pageNo;
-        var eee = await Articles.findAndCountAll({
+        let eee = await Articles.findAndCountAll({
             'limit': countPerPage,                      // 每页多少条
-            'offset': countPerPage * (currentPage - 1)  // 跳过多少条
+            'offset': countPerPage * (currentPage - 1),  // 跳过多少条
+            'order': [['createAt','DESC']]
         });
-        // 
         // console.log(108,JSON.stringify(eee))
         return eee
+    },
+    //编辑文章
+    editArticleById:async({token,id,updateAt,title,content,contentToMark,brief,classType})=>{
+        //根据token查询userId，查出来之后提交给文章表
+        const findUserId = await User.findAll({
+            where:{
+                telephone:token
+            }
+        })
+        const updateArt = await Articles.update(
+            {
+                classType:classType,
+                title:title,
+                content:content,
+                contentToMark:contentToMark,
+                brief:brief,
+                updateAt:updateAt
+            },
+            {
+                where:{
+                    id:id,
+                    userId:findUserId[0].id
+                }
+            })
+            // console.log(102,updateArt)
+            return updateArt
+        // console.log(102,updateArt)
+    },
+    getArticleById:async({id})=>{
+        
     }
 }

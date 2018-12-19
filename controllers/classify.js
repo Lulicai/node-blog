@@ -8,16 +8,17 @@ module.exports = {
             classType:ctx.request.body.classType
         }
         const createdClass = await api.createClass(data)
-        if(createdClass == '该分类已存在'){
+        const res = JSON.parse(JSON.stringify(createdClass))
+        if(res[1]){
             ctx.rest({
-                code:'1002',
-                message:'该分类已存在'
+                code:'0000',
+                data:[res[0]],
+                message:'操作成功'
             });
         }else{
             ctx.rest({
-                code:'0000',
-                data:[createdClass],
-                message:'操作成功'
+                code:'1002',
+                message:'该分类已存在'
             });
         }
     },
