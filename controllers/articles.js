@@ -64,7 +64,7 @@ module.exports = {
                 brief:ctx.request.body.brief,
                 updateAt:now
             }
-            const artData = await api.editArticleById(data)
+            await api.editArticleById(data)
             // console.log(68,artData)
             ctx.rest({
                 code:'0000',
@@ -72,7 +72,47 @@ module.exports = {
             })
         }
     },
-    'GET /api/getArticleById/:id':async({ctx,next})=>{
-        
+    //前端展示获取文章信息
+    'GET /api/getArticleById/:id':async(ctx,next)=>{
+        // console.log(76,ctx.params.id)
+        let data = {
+            id:ctx.params.id
+        }
+        const res = await api.getArticleById(data)
+        ctx.rest({
+            code:'0000',
+            data:res,
+            message:'操作成功'
+        })
+    },
+    //删除文章
+    'POST /api/deleteArticleById/':async(ctx,next)=>{
+        let data = {
+            id:ctx.request.body.id
+        }
+        const res = await api.deleteArticleById(data)
+        if(res){
+            ctx.rest({
+                code:'0000',
+                message:'操作成功'
+            })
+        }else{
+            throw new APIError('422','参数出错')
+        }
+    },
+    //根据分类获取文章列表
+    'POST /api/getArticleByClassType/':async(ctx,next)=>{
+        let data = {
+            classType:ctx.request.body.classType,
+            pageNo:ctx.request.body.pageNo,
+        }
+        const res = await api.getArticleByClassType(data)
+        res.pageNo = parseInt(ctx.request.body.pageNo);
+        res.pageSize = 10;
+        ctx.rest({
+            code:'0000',
+            data:res,
+            message:'操作成功'
+        })
     }
 }

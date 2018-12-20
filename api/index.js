@@ -113,6 +113,33 @@ module.exports = {
         // console.log(102,updateArt)
     },
     getArticleById:async({id})=>{
-        
+        const articleDetail = await Articles.findOne({
+            where:{
+                id:id
+            }
+        })
+        // console.log(121,articleDetail)
+        return articleDetail
+    },
+    deleteArticleById:async({id})=>{
+        const deleRes = await Articles.destroy({
+            where:{
+                id:id
+            }
+        });
+        // console.log(78,deleRes)
+        return deleRes;
+    },
+    getArticleByClassType:async({classType,pageNo})=>{
+        let countPerPage = 10, currentPage = pageNo;
+        const res = await Articles.findAndCountAll({
+            'where':{
+                classType:classType
+            },
+            'limit': countPerPage,                      // 每页多少条
+            'offset': countPerPage * (currentPage - 1),  // 跳过多少条
+            'order': [['createAt','DESC']]
+        })
+        return res
     }
 }

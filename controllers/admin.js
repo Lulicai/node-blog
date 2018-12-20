@@ -1,7 +1,8 @@
 //用户管理的接口操作部分
 const checkdata = require('../tool')
 const api = require('../api');
-const operateToken = require('../tool/operateToken')
+const operateToken = require('../tool/operateToken');
+var sha1 = require('sha1');
 module.exports = {
     'POST /api/register':async(ctx,next)=>{
         if(checkdata.checkNone(ctx.request.body.telephone)){
@@ -16,7 +17,7 @@ module.exports = {
                 message:'请填写正确的手机号～～～'
             })
             return;
-        }else if(checkdata.checkNone(ctx.request.body.password)){
+        }else if(checkdata.checkNone(sha1(ctx.request.body.password))){
             ctx.rest({
                 code:'10002',
                 message:'密码不能为空哟～～～'
@@ -25,7 +26,7 @@ module.exports = {
         }else{
             let user = {
                 telephone:ctx.request.body.telephone,
-                password:ctx.request.body.password
+                password:sha1(ctx.request.body.password)
             }
             const data = await api.createUser(user)
             // console.log(31,JSON.parse(JSON.stringify(data)))
@@ -61,7 +62,7 @@ module.exports = {
         }else{
             const user = await api.affirmUser({
                 telephone:ctx.request.body.telephone,
-                password:ctx.request.body.password
+                password:sha1(ctx.request.body.password)
             })
             const u = JSON.stringify(user);
             const userP = JSON.parse(u)
