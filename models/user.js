@@ -7,5 +7,7 @@ module.exports = db.defineModel('user',{
         unique:true
     },
     password:Sequelize.STRING(100),
-    remark:Sequelize.TEXT
+    remark:Sequelize.TEXT,
+    rank:Sequelize.STRING(2),
+    status:Sequelize.BOOLEAN,
 })

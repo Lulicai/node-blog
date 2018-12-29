@@ -6,11 +6,17 @@ let User = model.user;
 let Classify = model.classify;
 let Articles = model.articles;
 
-
 module.exports = {
     //注册创建用户
-    createUser: async ({telephone,password})=>{
-        const data = await User.findOrCreate({where:{telephone:telephone},defaults:{password:password,remark:''}})
+    createUser: async ({telephone,password,rank,status,remark})=>{
+        let remark1 = remark || "";
+        let rank1 = rank || "3";
+        let status1 = status || "0";
+
+        const data = await User.findOrCreate({
+            where:{telephone:telephone},
+            defaults:{password:password,remark:remark1,rank:rank1,status:status1}
+        })
         return data;
     },
     //登录确认用户
@@ -141,5 +147,25 @@ module.exports = {
             'order': [['createAt','DESC']]
         })
         return res
+    },
+    getAllUser:async({pageNo})=>{
+        var countPerPage = 10, currentPage = pageNo;
+        let eee = await User.findAndCountAll({
+            'limit': countPerPage,                      // 每页多少条
+            'offset': countPerPage * (currentPage - 1),  // 跳过多少条
+            'order': [['createAt','DESC']]
+        });
+        // console.log(108,JSON.stringify(eee))
+        return eee
+    },
+    editUserRank:async({id, status, updateAt})=>{
+        const updateUser = await User.update(
+            {status:status,updateAt:updateAt},
+            {
+                where:{
+                    id:id
+                }
+            })
+            return updateUser
     }
 }

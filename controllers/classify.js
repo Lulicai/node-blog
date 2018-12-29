@@ -1,4 +1,3 @@
-const checkdata = require('../tool')
 const api = require('../api');
 const APIError = require('../middleware/rest').APIError;
 

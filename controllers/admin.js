@@ -26,7 +26,10 @@ module.exports = {
         }else{
             let user = {
                 telephone:ctx.request.body.telephone,
-                password:sha1(ctx.request.body.password)
+                password:sha1(ctx.request.body.password),
+                rank:ctx.request.body.rank,
+                status:ctx.request.body.status,
+                remark:ctx.request.body.remark
             }
             const data = await api.createUser(user)
             // console.log(31,JSON.parse(JSON.stringify(data)))
