@@ -18,14 +18,14 @@ module.exports = {
             message:'操作成功'
         })
     },
-    'POST /api/editUserRank':async(ctx,next)=>{
+    'POST /api/editUserStatus':async(ctx,next)=>{
         let now = Date.now();
         let data = {
             id:ctx.request.body.id,
             status:ctx.request.body.status,
             updateAt:now
         }
-        const res = await api.editUserRank(data)
+        const res = await api.editUserStatus(data)
         // console.log(31,JSON.parse(JSON.stringify(data)))
         const userDataRank = JSON.parse(JSON.stringify(res));
         ctx.rest({
@@ -33,5 +33,36 @@ module.exports = {
             data:userDataRank,
             message:'操作成功'
         })
+    },
+    'POST /api/editUser':async(ctx,next)=>{
+        let now = Date.now();
+        let data = {
+            telephone:ctx.request.body.telephone,
+            rank:ctx.request.body.rank,
+            updateAt:now,
+            id:ctx.request.body.id
+        }
+        const res = await api.editUser(data)
+        const userDataRank = JSON.parse(JSON.stringify(res));
+        // console.log(31,JSON.parse(JSON.stringify(userDataRank)))
+        if(userDataRank == "已有手机号"){
+            ctx.rest({
+                code:'1002',
+                message:'已有此手机号'
+            })
+            return;
+        }
+        if(userDataRank[0]){
+            ctx.rest({
+                code:'0000',
+                message:'操作成功'
+            })
+        }else{
+            ctx.rest({
+                code:'1002',
+                message:'出现错误'
+            })
+        }
+        
     },
 }

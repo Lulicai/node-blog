@@ -158,7 +158,7 @@ module.exports = {
         // console.log(108,JSON.stringify(eee))
         return eee
     },
-    editUserRank:async({id, status, updateAt})=>{
+    editUserStatus:async({id, status, updateAt})=>{
         const updateUser = await User.update(
             {status:status,updateAt:updateAt},
             {
@@ -166,6 +166,29 @@ module.exports = {
                     id:id
                 }
             })
+        return updateUser
+    },
+    editUser:async({id, telephone, updateAt, rank})=>{
+        const usercreate = await User.findOne({
+            where:{
+                telephone:telephone
+            }
+        })
+        const isUser = JSON.parse(JSON.stringify(usercreate))
+        // console.log(177,isUser)
+        //先判断有没有手机号
+        if(isUser == null){
+            const updateUser = await User.update(
+                {telephone:telephone,updateAt:updateAt,rank:rank},
+                {
+                    where:{
+                        id:id
+                    }
+                })
             return updateUser
+        }else{
+            return "已有此手机号"
+        }
+        
     }
 }
