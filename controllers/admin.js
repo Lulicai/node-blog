@@ -38,6 +38,7 @@ module.exports = {
                 ctx.rest({
                     code:'0000',
                     token:operateToken.createToken(ctx.request.body.telephone),
+                    rank:res[0].rank,
                     message:'操作成功'
                 });
             }else{
@@ -79,6 +80,7 @@ module.exports = {
                 ctx.rest({
                         code:'0000',
                         token:operateToken.createToken(ctx.request.body.telephone),
+                        rank:userP[0].rank,
                         message:'操作成功'
                     })
             }else{

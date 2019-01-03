@@ -40,18 +40,12 @@ module.exports = {
             telephone:ctx.request.body.telephone,
             rank:ctx.request.body.rank,
             updateAt:now,
-            id:ctx.request.body.id
+            id:ctx.request.body.id,
+            remark:ctx.request.body.remark
         }
         const res = await api.editUser(data)
         const userDataRank = JSON.parse(JSON.stringify(res));
         // console.log(31,JSON.parse(JSON.stringify(userDataRank)))
-        if(userDataRank == "已有手机号"){
-            ctx.rest({
-                code:'1002',
-                message:'已有此手机号'
-            })
-            return;
-        }
         if(userDataRank[0]){
             ctx.rest({
                 code:'0000',
