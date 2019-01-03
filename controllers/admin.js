@@ -91,5 +91,30 @@ module.exports = {
             }
         }
     },
+    'POST /api/getUserInfo':async(ctx,next)=>{
+        let teldata = operateToken.checkToken(ctx.request.body.token)
+        if(teldata.code){
+            ctx.rest({
+                code:401,
+                message:'授权已经过期，请重新登录哦亲～～'
+            })
+            return;
+        }else{
+            let data = {
+                token:teldata.tel
+            }
+           const getdata = await api.getUserInfo(data);
+           let info = {
+               id: getdata[0].id,
+               rank: getdata[0].rank,
+               telephone: getdata[0].telephone,
+           }
+           ctx.rest({
+                code:'0000',
+                data:info,
+                message:'发布成功'
+            })
+        }
+    }
 
 }

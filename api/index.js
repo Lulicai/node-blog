@@ -28,6 +28,15 @@ module.exports = {
         })
         return findUser
     },
+    //获取用户的信息
+    getUserInfo: async({token}) => {
+        const findUser = await User.findAll({
+            where:{
+                telephone:token
+            }
+        })
+        return findUser
+    },
     //创建文章分类
     createClass:async({classType})=>{
         const data = await Classify.findOrCreate({where:{classType:classType}})
@@ -42,7 +51,7 @@ module.exports = {
                     id:id
                 }
             })
-            return updateClass
+        return updateClass
     },
     //查询所有的分类
     findAllClass:async()=>{
