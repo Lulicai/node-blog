@@ -1,10 +1,13 @@
 const model = require('../middleware/model');
 const APIError = require('../middleware/rest').APIError;
-// var Sequelize = require('sequelize');
+var Sequelize = require('sequelize');
 // const Op = Sequelize.Op
 let User = model.user;
 let Classify = model.classify;
 let Articles = model.articles;
+
+User.hasMany(Articles);
+Articles.belongsTo(User);
 
 module.exports = {
     //注册创建用户
@@ -98,6 +101,7 @@ module.exports = {
         // console.log(78,pageNo)
         var countPerPage = 10, currentPage = pageNo;
         let eee = await Articles.findAndCountAll({
+            'include':[{model:User,where:{id:Sequelize.col('Articles.userId')}}],
             'limit': countPerPage,                      // 每页多少条
             'offset': countPerPage * (currentPage - 1),  // 跳过多少条
             'order': [['createAt','DESC']]

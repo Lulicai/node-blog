@@ -6,7 +6,7 @@ const APIError = require('../middleware/rest').APIError;
 module.exports = {
     'POST /api/createArticle':async(ctx,next)=>{
         //得到token
-        let teldata = operateToken.checkToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWwiOiIxNzYwMDIwOTc4MSIsImV4cCI6MTU0NTcyNjU1OSwiaWF0IjoxNTQ1MTIxNzU5fQ.iwopxqbcSfnOaJvg1CvLv--rQNNPt4RPl1zo2Z0hnTE')
+        let teldata = operateToken.checkToken(ctx.request.body.token)
         if(teldata.code){
             ctx.rest({
                 code:401,
@@ -45,7 +45,7 @@ module.exports = {
         })
     },
     'POST /api/editArticleById':async(ctx,next)=>{
-        let teldata = operateToken.checkToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWwiOiIxNzYwMDIwOTc4MSIsImV4cCI6MTU0NTcyNjU1OSwiaWF0IjoxNTQ1MTIxNzU5fQ.iwopxqbcSfnOaJvg1CvLv--rQNNPt4RPl1zo2Z0hnTE')
+        let teldata = operateToken.checkToken(ctx.request.body.token)
         if(teldata.code){
             ctx.rest({
                 code:401,
