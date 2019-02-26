@@ -101,7 +101,7 @@ module.exports = {
         // console.log(78,pageNo)
         var countPerPage = 10, currentPage = pageNo;
         let eee = await Articles.findAndCountAll({
-            'include':[{model:User,where:{id:Sequelize.col('Articles.userId')}}],
+            'include':[{model:User,'attributes': ['telephone']}],
             'limit': countPerPage,                      // 每页多少条
             'offset': countPerPage * (currentPage - 1),  // 跳过多少条
             'order': [['createAt','DESC']]

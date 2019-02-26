@@ -22,6 +22,7 @@ module.exports = {
                 contentToMark:ctx.request.body.contentToMark,
                 brief:ctx.request.body.brief
             }
+            console.log(25,data)
            const newArt = await api.createArticle(data)
            ctx.rest({
                 code:'0000',
