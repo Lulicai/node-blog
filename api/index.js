@@ -58,13 +58,21 @@ module.exports = {
     },
     //查询所有的分类
     findAllClass:async({pageNo})=>{
-        var countPerPage = 10, currentPage = pageNo;
-        let findallClass = await Classify.findAndCountAll({
-            'limit': countPerPage,                      // 每页多少条
-            'offset': countPerPage * (currentPage - 1),  // 跳过多少条
-            'order': [['createAt','DESC']]
-        });
-        return findallClass;
+        if(pageNo){
+            var countPerPage = 10, currentPage = pageNo;
+            let findallClass = await Classify.findAndCountAll({
+                'limit': countPerPage,                      // 每页多少条
+                'offset': countPerPage * (currentPage - 1),  // 跳过多少条
+                'order': [['createAt','DESC']]
+            });
+            return findallClass;
+        }else{
+            let findallClass = await Classify.findAll({
+                'order': [['createAt','DESC']]
+            });
+            return findallClass;
+        }
+        
     },
     //删除分类
     deleteClass:async({id})=>{

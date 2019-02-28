@@ -43,17 +43,19 @@ module.exports = {
         // });
         let data = {
             pageNo:parseInt(ctx.request.body.pageNo)
-        }
+        };
         const res = await api.findAllClass(data)
-        // console.log(31,JSON.parse(JSON.stringify(data)))
         const classData = JSON.parse(JSON.stringify(res));
-        classData.pageNo = parseInt(ctx.request.body.pageNo);
-        classData.pageSize = 10;
+        if(ctx.request.body.pageNo){
+            classData.pageNo = parseInt(ctx.request.body.pageNo);
+            classData.pageSize = 10;
+        };
         ctx.rest({
             code:'0000',
             data:classData,
             message:'操作成功'
         })
+        
     },
     'POST /api/deleteClass':async(ctx,next)=>{
         const deleRes = await api.deleteClass({id:ctx.request.body.id});
