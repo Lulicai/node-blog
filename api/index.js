@@ -210,5 +210,8 @@ module.exports = {
                 }
             })
         return updateUser
+    },
+    uploadImg:async({})=>{
+
     }
 }

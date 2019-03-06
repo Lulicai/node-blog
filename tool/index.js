@@ -1,4 +1,5 @@
 //各种验证
+const env = require('../config/env.js')
 module.exports = {
     checkNone:function(data){
         if(!data){
@@ -13,6 +14,13 @@ module.exports = {
             return true
         }
         return false;
+    },
+    checkEnv:function(){
+        if(env == 'development'){
+            return 'http://localhost:3000'
+        }else{
+            return 'http://www.lilicai.com'
+        }
     }
 }
 

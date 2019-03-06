@@ -5,20 +5,27 @@ var cors = require('koa2-cors');
 const controller = require('./middleware/controller');
 const rest = require('./middleware/rest');
 const model = require('./middleware/model');
+const serve = require('koa-static');
+const koaBody = require("koa-body")
+const path = require('path')
 
-let User = model.user;
+// let User = model.user;
 // let sync = model.sync;
 // sync()
 
 //输出处理的请求连接
-
-app.use(async(ctx,next)=>{
+app.use(async (ctx, next) => {
     console.log(`process ${ctx.request.method} ${ctx.request.url}`);
     await next();
 })
+app.use(serve(__dirname + '/uploads'));
 
-app.use(bodyParser());
-
+app.use(koaBody({
+    multipart:true,
+    formidable:{
+        maxFieldsSize:2*1024*1024,
+    }
+}));
 app.use(rest.restify());
 
 app.use(cors({
@@ -34,6 +41,6 @@ app.use(cors({
 
 app.use(controller());
 
-app.listen(3000,()=>{
+app.listen(3000, () => {
     console.log('start listen 3000....');
 });

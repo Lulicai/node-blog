@@ -1,8 +1,8 @@
 const fs = require("fs");
 const defaultConfig = './config-default';
 const productConfig = './config-prodution';
+const env = require('./env')
 
-const env = 'development';
 var config = null;
 
 if(env == 'development'){
