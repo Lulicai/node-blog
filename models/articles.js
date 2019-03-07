@@ -7,5 +7,6 @@ module.exports = db.defineModel('articles',{
     userId:Sequelize.STRING(50),
     content:Sequelize.TEXT,
     contentToMark:Sequelize.TEXT,
-    brief:Sequelize.STRING(100)
+    brief:Sequelize.STRING(100),
+    imgUrl:Sequelize.STRING(50),
 })

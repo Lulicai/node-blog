@@ -85,21 +85,21 @@ module.exports = {
         return deleRes;
     },
     //创建用户的文章
-    createArticle:async({token,classType,title,content,contentToMark,brief})=>{
+    createArticle:async({token,classType,title,content,contentToMark,brief,imgUrl})=>{
             //根据token查询userId，查出来之后提交给文章表
             const findUserId = await User.findAll({
                 where:{
                     telephone:token
                 }
             })
-            // console.log(120,findUserId[0].id)
             const allart = await Articles.create({
                 classType:classType,
                 title:title,
                 content:content,
                 contentToMark:contentToMark,
                 brief:brief,
-                userId:findUserId[0].id
+                userId:findUserId[0].id,
+                imgUrl:imgUrl
             })
             // console.log(126,allart)
             return allart
@@ -118,7 +118,7 @@ module.exports = {
         return eee
     },
     //编辑文章
-    editArticleById:async({token,id,updateAt,title,content,contentToMark,brief,classType})=>{
+    editArticleById:async({token,id,updateAt,title,content,contentToMark,brief,classType,imgUrl})=>{
         //根据token查询userId，查出来之后提交给文章表
         const findUserId = await User.findAll({
             where:{
@@ -132,7 +132,8 @@ module.exports = {
                 content:content,
                 contentToMark:contentToMark,
                 brief:brief,
-                updateAt:updateAt
+                updateAt:updateAt,
+                imgUrl:imgUrl
             },
             {
                 where:{

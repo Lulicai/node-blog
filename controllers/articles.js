@@ -23,7 +23,8 @@ module.exports = {
                 title: ctx.request.body.title,
                 content: ctx.request.body.content,
                 contentToMark: ctx.request.body.contentToMark,
-                brief: ctx.request.body.brief
+                brief: ctx.request.body.brief,
+                imgUrl:ctx.request.body.imgUrl
             }
             console.log(25, data)
             const newArt = await api.createArticle(data)
@@ -66,7 +67,8 @@ module.exports = {
                 content: ctx.request.body.content,
                 contentToMark: ctx.request.body.contentToMark,
                 brief: ctx.request.body.brief,
-                updateAt: now
+                updateAt: now,
+                imgUrl: ctx.request.body.imgUrl
             }
             await api.editArticleById(data)
             // console.log(68,artData)
@@ -148,9 +150,22 @@ module.exports = {
             message: '操作成功'
         })
     },
-    'POST /api/deleteImg/': async (ctx, next) => {
+    'POST /api/deleteImg/':async(ctx, next) => {
         //传入文件的名称  
-        //判断是否在某个文件夹内，有的话删除
-        
+        //判断是否在某个文件夹内，有的话删
+        let fileName = ctx.request.body.imgUrl;
+        let filePath = path.resolve(__dirname, '..') + "/uploads/"+fileName;
+        if (fs.existsSync(filePath)) {  //判断staic/upload文件夹是否存在，如果不存在就新建一个
+            fs.unlinkSync(filePath);
+            ctx.rest({
+                code: '0000',
+                message: '文件删除成功'
+            })
+        }else{
+            ctx.rest({
+                code: '1000',
+                message: '文件不存在'
+            })
+        }
     }
 }
